@@ -8,6 +8,7 @@ import os
 import sys
 import platform
 import const
+import dblogin
 from lang import languages
 import locale
 
@@ -51,8 +52,8 @@ class Game:
 
     def checkVersion(self):
         try:
-            conn = pymysql.connect(host=const.DB_LOGIN['host'], user=const.DB_LOGIN['user'], passwd=const.DB_LOGIN['passwd'],
-                                   database=const.DB_LOGIN['msgdatabase'], port=const.DB_LOGIN['port'])
+            conn = pymysql.connect(host=dblogin.DB_LOGIN['host'], user=dblogin.DB_LOGIN['user'], passwd=dblogin.DB_LOGIN['passwd'],
+                                   database=dblogin.DB_LOGIN['msgdatabase'], port=dblogin.DB_LOGIN['port'])
             cursor = conn.cursor()
             cursor.execute(f'SELECT * FROM `version_info` WHERE `version` > {const.VERSION} ORDER BY `version` DESC LIMIT 1')
             message = cursor.fetchone()
@@ -252,8 +253,8 @@ class Game:
     def submitScore(self, name, time):
         try:
             if not self.outdated:
-                conn = pymysql.connect(host=const.DB_LOGIN['host'], user=const.DB_LOGIN['user'], passwd=const.DB_LOGIN['passwd'],
-                                       database=const.DB_LOGIN['database'], port=const.DB_LOGIN['port'])
+                conn = pymysql.connect(host=dblogin.DB_LOGIN['host'], user=dblogin.DB_LOGIN['user'], passwd=dblogin.DB_LOGIN['passwd'],
+                                       database=dblogin.DB_LOGIN['database'], port=dblogin.DB_LOGIN['port'])
                 cursor = conn.cursor()
                 numRows = cursor.execute(f'SELECT * FROM `{self.difficulty}` WHERE `name` = "{name}"')
                 if numRows >= 10:
@@ -286,8 +287,8 @@ class Game:
             Label(self.leaderboardWindow.lbFrame, fg='#eeeeee', bg=self.leaderboardWindow.lbFrame.cget('bg'), font=('Helvetica', 16))
             ]
         try:
-            conn = pymysql.connect(host=const.DB_LOGIN['host'], user=const.DB_LOGIN['user'], passwd=const.DB_LOGIN['passwd'],
-                                   database=const.DB_LOGIN['database'], port=const.DB_LOGIN['port'])
+            conn = pymysql.connect(host=dblogin.DB_LOGIN['host'], user=dblogin.DB_LOGIN['user'], passwd=dblogin.DB_LOGIN['passwd'],
+                                   database=dblogin.DB_LOGIN['database'], port=dblogin.DB_LOGIN['port'])
             cursor = conn.cursor()
             cursor.execute(f'SELECT * FROM `{self.difficulty}` ORDER BY `time` LIMIT 5')
             results = cursor.fetchall()
