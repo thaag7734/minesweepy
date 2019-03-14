@@ -26,11 +26,11 @@ class Game:
     def __init__(self):
         self.language = languages[locale.getdefaultlocale()[0]] if locale.getdefaultlocale()[0] in languages else 'en_US'
         print(self.language['flagsleft'])
-        originalFlagImage = Image.open(resource_path('flag.png'))
+        originalFlagImage = Image.open(resource_path('res/flag.png'))
         resizedFlagImage = originalFlagImage.resize((const.BLOCK_SIZE, const.BLOCK_SIZE), Image.ANTIALIAS)
         self.OPWIN = Tk()
         self.flagImage = ImageTk.PhotoImage(resizedFlagImage)
-        self.OPWIN.iconbitmap(resource_path('icon.ico'))
+        self.OPWIN.iconbitmap(resource_path('res/icon.ico'))
         self.OPWIN.title('MinesweePy')
         self.OPWIN.geometry('250x150')
         self.OPWIN.resizable(0, 0)
@@ -58,7 +58,7 @@ class Game:
             conn.close()
             if message:
                 self.outdatedWindow = Toplevel()
-                self.outdatedWindow.iconbitmap(resource_path('error.ico'))
+                self.outdatedWindow.iconbitmap(resource_path('res/error.ico'))
                 header = message[1]
                 body = message[2]
                 self.outdatedWindow.versionWarningHead = Label(self.outdatedWindow, text=header, fg='red')
@@ -71,7 +71,7 @@ class Game:
             return False
         except pymysql.err.OperationalError:
             self.outdatedWindow = Toplevel()
-            self.outdatedWindow.iconbitmap(resource_path('error.ico'))
+            self.outdatedWindow.iconbitmap(resource_path('res/error.ico'))
             self.outdatedWindow.noConnHead = Label(self.outdatedWindow, text=const.NO_CONN['head'], fg='red')
             self.outdatedWindow.noConnBody = Label(self.outdatedWindow, text=const.NO_CONN['body'], wraplength=200)
             self.outdatedWindow.noConnHead.pack()
@@ -104,7 +104,7 @@ class Game:
             self.leaderboardWindow.destroy()
         except AttributeError:
             pass
-        self.WINDOW.iconbitmap(resource_path('icon.ico'))
+        self.WINDOW.iconbitmap(resource_path('res/icon.ico'))
         self.WINDOW.title('MinesweePy')
         self.WINDOW.resizable(0,0)
         self.WINDOW.pauseText = Label(self.WINDOW, text=f'{self.language["paused"]}', font=('Helvetica', 32), anchor=CENTER)
@@ -217,7 +217,7 @@ class Game:
         self.elapsedTime += timeSum
         self.elapsedTime += self.timerEnd - self.timerStart
         self.victoryWindow = Toplevel()
-        self.victoryWindow.iconbitmap(resource_path('icon.ico'))
+        self.victoryWindow.iconbitmap(resource_path('res/icon.ico'))
         self.victoryWindow.scoreLabel = Label(self.victoryWindow, text=f'{self.language["savescore"]}',
                                               font=('Helvetica', 18), wraplength=300)
         self.validateCmd = (self.victoryWindow.register(self.validateName), '%P', '%d', '%S')
@@ -264,7 +264,7 @@ class Game:
             self.displayLeaderboard()
         except pymysql.err.OperationalError:
             errWindow = Toplevel()
-            errWindow.iconbitmap(resource_path('error.ico'))
+            errWindow.iconbitmap(resource_path('res/error.ico'))
             errWindow.errHead = Label(errWindow, text=const.NO_CONN['head'], fg='red')
             errWindow.errBody = Label(errWindow, text=const.NO_CONN['body'], wraplength=200)
             errWindow.errHead.pack()
@@ -272,7 +272,7 @@ class Game:
 
     def displayLeaderboard(self):
         self.leaderboardWindow = Toplevel()
-        self.leaderboardWindow.iconbitmap(resource_path('icon.ico'))
+        self.leaderboardWindow.iconbitmap(resource_path('res/icon.ico'))
         self.leaderboardWindow.title('MinesweePy')
         self.leaderboardWindow.titleText = Label(self.leaderboardWindow, text=f'{self.language["toptimes"]}' % self.difficulty, font=('Helvetica', 20))
         self.leaderboardWindow.lbFrame = Frame(self.leaderboardWindow, relief=RAISED, bd=1, highlightthickness=0, bg='#0d0d0d')
@@ -303,7 +303,7 @@ class Game:
 
 class Field:
     def __init__(self, difficulty, window):
-        originalBombImage = Image.open(resource_path('bomb.png'))
+        originalBombImage = Image.open(resource_path('res/bomb.png'))
         resizedBombImage = originalBombImage.resize((const.BLOCK_SIZE, const.BLOCK_SIZE), Image.ANTIALIAS)
         self.bombImage = ImageTk.PhotoImage(resizedBombImage)
         self.BLOCK_SIZE = const.BLOCK_SIZE
