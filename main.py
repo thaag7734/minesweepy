@@ -34,14 +34,14 @@ class Game:
         self.OPWIN.title('MinesweePy')
         self.OPWIN.geometry('250x150')
         self.OPWIN.resizable(0, 0)
-        self.OPWIN.restartButton = Button(self.OPWIN, text=f'{self.language["newgame"]}', command=lambda : self.startNewGame())
-        self.OPWIN.flagLabel = Label(self.OPWIN, text=f'{self.language["flagsleft"]}', font=('Helvetica', 20))
+        self.OPWIN.restartButton = Button(self.OPWIN, text=self.language["newgame"] , command=lambda : self.startNewGame())
+        self.OPWIN.flagLabel = Label(self.OPWIN, text=self.language["flagsleft"], font=('Helvetica', 20))
         self.OPWIN.difficulty = StringVar()
         self.OPWIN.difficulty.trace('w', lambda *_: self.setDifficulty(self.OPWIN.difficulty.get()))
         self.OPWIN.difficulty.set('Easy')
         self.OPWIN.difficultyMenu = OptionMenu(self.OPWIN, self.OPWIN.difficulty, *const.GRIDS)
-        self.OPWIN.leaderboardButton = Button(self.OPWIN, text=f'{self.language["leaderboard"]}', command=self.displayLeaderboard)
-        self.OPWIN.pauseButton = Button(self.OPWIN, text='{self.language["pause"]}', command=lambda : self.pauseGame())
+        self.OPWIN.leaderboardButton = Button(self.OPWIN, text=self.language["leaderboard"], command=self.displayLeaderboard)
+        self.OPWIN.pauseButton = Button(self.OPWIN, text=self.language["pause"], command=lambda : self.pauseGame())
         self.OPWIN.difficultyMenu.pack()
         self.OPWIN.restartButton.pack()
         self.OPWIN.leaderboardButton.pack()
@@ -52,7 +52,7 @@ class Game:
             conn = pymysql.connect(host=dblogin.DB_LOGIN['host'], user=dblogin.DB_LOGIN['user'], passwd=dblogin.DB_LOGIN['passwd'],
                                    database=dblogin.DB_LOGIN['msgdatabase'], port=dblogin.DB_LOGIN['port'])
             cursor = conn.cursor()
-            cursor.execute(f'SELECT * FROM `version_info` WHERE `version` > {const.VERSION} ORDER BY `version` DESC LIMIT 1')
+            cursor.execute('SELECT * FROM `version_info` WHERE `version` > %s ORDER BY `version` DESC LIMIT 1' % const.VERSION)
             message = cursor.fetchone()
             cursor.close()
             conn.close()
@@ -63,7 +63,7 @@ class Game:
                 body = message[2]
                 self.outdatedWindow.versionWarningHead = Label(self.outdatedWindow, text=header, fg='red')
                 self.outdatedWindow.versionWarningBody = Label(self.outdatedWindow, text=body, wraplength=200)
-                self.outdatedWindow.updateButton = Button(self.outdatedWindow, text=f'{self.language["updatebutton"]}', command=self.openUpdate)
+                self.outdatedWindow.updateButton = Button(self.outdatedWindow, text=self.language["updatebutton"], command=self.openUpdate)
                 self.outdatedWindow.versionWarningHead.pack()
                 self.outdatedWindow.versionWarningBody.pack()
                 self.outdatedWindow.updateButton.pack()
@@ -107,13 +107,13 @@ class Game:
         self.WINDOW.iconbitmap(resource_path('res/icon.ico'))
         self.WINDOW.title('MinesweePy')
         self.WINDOW.resizable(0,0)
-        self.WINDOW.pauseText = Label(self.WINDOW, text=f'{self.language["paused"]}', font=('Helvetica', 32), anchor=CENTER)
+        self.WINDOW.pauseText = Label(self.WINDOW, text=self.language["paused"]}, font=('Helvetica', 32), anchor=CENTER)
         self.winx = self.OPWIN.winfo_x() + self.OPWIN.winfo_width() + 50
         self.winy = self.OPWIN.winfo_y()
-        self.WINDOW.geometry(f'+{self.winx}+{self.winy}')
+        self.WINDOW.geometry('+%d+%d' % (self.winx, self.winy))
         self.field = Field(self.difficulty, self.WINDOW)
         self.flagsLeft = IntVar()
-        self.flagsLeft.trace('w', lambda *_: self.OPWIN.flagLabel.config(text=f'{self.language["flagsleft"]}{self.flagsLeft.get()}'))
+        self.flagsLeft.trace('w', lambda *_: self.OPWIN.flagLabel.config(text=self.language["flagsleft"] + self.flagsLeft.get()))
         self.flagsLeft.set(self.field.MINE_COUNT)
         self.WINDOW.bind('<ButtonRelease-1>', lambda _: self.frameClicked())
         self.WINDOW.bind('<ButtonRelease-3>', lambda _: self.flag())
@@ -218,21 +218,21 @@ class Game:
         self.elapsedTime += self.timerEnd - self.timerStart
         self.victoryWindow = Toplevel()
         self.victoryWindow.iconbitmap(resource_path('res/icon.ico'))
-        self.victoryWindow.scoreLabel = Label(self.victoryWindow, text=f'{self.language["savescore"]}',
+        self.victoryWindow.scoreLabel = Label(self.victoryWindow, text=self.language["savescore"]',
                                               font=('Helvetica', 18), wraplength=300)
         self.validateCmd = (self.victoryWindow.register(self.validateName), '%P', '%d', '%S')
         self.victoryWindow.nameEntry = Entry(self.victoryWindow, validate='key', vcmd=self.validateCmd)
-        self.victoryWindow.submitButton = Button(self.victoryWindow, text=f'{self.language["submitbutton"]}',
+        self.victoryWindow.submitButton = Button(self.victoryWindow, text=self.language["submitbutton"],
                                                  command=lambda : self.submitScore(self.victoryWindow.nameEntry.get(), self.elapsedTime))
-        self.victoryWindow.invalidInputLabel = Label(self.victoryWindow, wraplength=300, fg='red', text=f'{self.language["validation"]}')
+        self.victoryWindow.invalidInputLabel = Label(self.victoryWindow, wraplength=300, fg='red', text=self.language["validation"])
         if self.outdated == 'nc':
             self.victoryWindow.scoreLabel.config(text=const.NO_CONN['body'], wraplength=500)
             self.victoryWindow.nameEntry.config(state=DISABLED)
-            self.victoryWindow.submitButton.config(text=f'{self.language["continuebutton"]}')
+            self.victoryWindow.submitButton.config(text=self.language["continuebutton"])
         elif self.outdated:
-            self.victoryWindow.scoreLabel.config(wraplength=500, text=f'{self.language["outdatedsave"]}')
+            self.victoryWindow.scoreLabel.config(wraplength=500, text=self.language["outdatedsave"])
             self.victoryWindow.nameEntry.config(state=DISABLED)
-            self.victoryWindow.submitButton.config(text=f'{self.language["continuebutton"]}')
+            self.victoryWindow.submitButton.config(text=self.language["continuebutton"])
         self.victoryWindow.scoreLabel.pack()
         self.victoryWindow.nameEntry.pack()
         self.victoryWindow.submitButton.pack()
@@ -253,11 +253,11 @@ class Game:
                 conn = pymysql.connect(host=dblogin.DB_LOGIN['host'], user=dblogin.DB_LOGIN['user'], passwd=dblogin.DB_LOGIN['passwd'],
                                        database=dblogin.DB_LOGIN['database'], port=dblogin.DB_LOGIN['port'])
                 cursor = conn.cursor()
-                numRows = cursor.execute(f'SELECT * FROM `{self.difficulty}` WHERE `name` = "{name}"')
+                numRows = cursor.execute('SELECT * FROM `%s` WHERE `name` = "%s"' % (self.difficulty, name))
                 if numRows >= 10:
                     limit = numRows - 9
-                    cursor.execute(f'DELETE FROM `{self.difficulty}` WHERE `name` = "{name}" ORDER BY `time` DESC LIMIT {limit}')
-                cursor.execute(f'INSERT INTO `{self.difficulty}` (`name`,`time`) VALUES ("{name}", {time})')
+                    cursor.execute('DELETE FROM `%s` WHERE `name` = "%s" ORDER BY `time` DESC LIMIT %d' % (self.difficulty, name, limit))
+                cursor.execute('INSERT INTO `%s` (`name`,`time`) VALUES ("%s", %d)', (self.difficulty, name, time)
                 cursor.close()
                 conn.close()
             self.victoryWindow.destroy()
@@ -274,7 +274,7 @@ class Game:
         self.leaderboardWindow = Toplevel()
         self.leaderboardWindow.iconbitmap(resource_path('res/icon.ico'))
         self.leaderboardWindow.title('MinesweePy')
-        self.leaderboardWindow.titleText = Label(self.leaderboardWindow, text=f'{self.language["toptimes"]}' % self.difficulty, font=('Helvetica', 20))
+        self.leaderboardWindow.titleText = Label(self.leaderboardWindow, text=self.language["toptimes"] % self.difficulty, font=('Helvetica', 20))
         self.leaderboardWindow.lbFrame = Frame(self.leaderboardWindow, relief=RAISED, bd=1, highlightthickness=0, bg='#0d0d0d')
         self.leaderboardWindow.topFive = [
             Label(self.leaderboardWindow.lbFrame, fg='#ffd700', bg=self.leaderboardWindow.lbFrame.cget('bg'), font=('Helvetica', 20)),
@@ -287,18 +287,18 @@ class Game:
             conn = pymysql.connect(host=dblogin.DB_LOGIN['host'], user=dblogin.DB_LOGIN['user'], passwd=dblogin.DB_LOGIN['passwd'],
                                    database=dblogin.DB_LOGIN['database'], port=dblogin.DB_LOGIN['port'])
             cursor = conn.cursor()
-            cursor.execute(f'SELECT * FROM `{self.difficulty}` ORDER BY `time` LIMIT 5')
+            cursor.execute('SELECT * FROM `%s` ORDER BY `time` LIMIT 5' % self.difficulty)
             results = cursor.fetchall()
             cursor.close()
             conn.close()
             self.leaderboardWindow.titleText.pack()
             self.leaderboardWindow.lbFrame.pack(pady=(0, 10))
             for scoreNum in range(0, len(results)):
-                self.leaderboardWindow.topFive[scoreNum].config(text=f'{results[scoreNum][0]}: {results[scoreNum][1]}')
+                self.leaderboardWindow.topFive[scoreNum].config(text='%s: %d' % (results[scoreNum][0], results[scoreNum][1]))
                 self.leaderboardWindow.topFive[scoreNum].pack()
         except pymysql.err.OperationalError:
             self.leaderboardWindow.titleText.pack()
-            self.leaderboardWindow.connectionErrorText = Label(self.leaderboardWindow, text=f'{self.language["noconn"]}', fg='red')
+            self.leaderboardWindow.connectionErrorText = Label(self.leaderboardWindow, text={self.language["noconn"]}, fg='red')
             self.leaderboardWindow.connectionErrorText.pack()
 
 class Field:
@@ -357,7 +357,7 @@ class Field:
                         if x < self.GRID_SIZE - 1:
                             if self.valField[y+1][x+1]: around += 1
 
-                    self.dispField[y][x].exposeLabel.config(text=f'{around}', fg=const.COLOURS[around])
+                    self.dispField[y][x].exposeLabel.config(text=around, fg=const.COLOURS[around])
                 self.dispField[y][x].grid(row=y, column=x)
 
 game = Game()
