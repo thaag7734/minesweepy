@@ -337,7 +337,6 @@ class Field:
                 self.dispField[y][x].pack_propagate(False)
 
                 if self.valField[y][x] == 1:
-                    #self.dispField[y][x].config(bg='red')
                     self.dispField[y][x].exposeLabel.config(image=self.bombImage)
                 else:
                     around = 0
