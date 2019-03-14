@@ -10,7 +10,7 @@ languages = {
         'validation': 'The only allowed characters are alphanumerics, ".", " ", and "_", and the length must be within 1-255.',
         'continuebutton': 'Continue',
         'outdatedsave': 'Your program is outdated! You cannot save your scores until you update.',
-        'toptimes': 'Top times for %d board',
+        'toptimes': 'Top times for %s board',
         'noconn': 'No connection',
         'flagsleft': 'Flags Left: '
         }
