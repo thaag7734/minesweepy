@@ -47,9 +47,6 @@ class Game:
         self.OPWIN.leaderboardButton.pack()
         self.outdated = self.checkVersion()
 
-    def langcont(self):
-        self.LANGWIN.cont = True
-
     def checkVersion(self):
         try:
             conn = pymysql.connect(host=dblogin.DB_LOGIN['host'], user=dblogin.DB_LOGIN['user'], passwd=dblogin.DB_LOGIN['passwd'],
