@@ -1,4 +1,7 @@
-from tkinter import *
+try:
+    from tkinter import *
+except ImportError:
+    from Tkinter import *
 from random import randint
 import time
 import pymysql
@@ -112,7 +115,7 @@ class Game:
         self.WINDOW.geometry('+%d+%d' % (self.winx, self.winy))
         self.field = Field(self.difficulty, self.WINDOW)
         self.flagsLeft = IntVar()
-        self.flagsLeft.trace('w', lambda *_: self.OPWIN.flagLabel.config(text=self.language["flagsleft"] + self.flagsLeft.get()))
+        self.flagsLeft.trace('w', lambda *_: self.OPWIN.flagLabel.config(text=self.language["flagsleft"] + str(self.flagsLeft.get())))
         self.flagsLeft.set(self.field.MINE_COUNT)
         self.WINDOW.bind('<ButtonRelease-1>', lambda _: self.frameClicked())
         self.WINDOW.bind('<ButtonRelease-3>', lambda _: self.flag())
@@ -356,7 +359,8 @@ class Field:
                         if x < self.GRID_SIZE - 1:
                             if self.valField[y+1][x+1]: around += 1
 
-                    self.dispField[y][x].exposeLabel.config(text=around, fg=const.COLOURS[around])
+
+                    self.dispField[y][x].exposeLabel.config(text=str(around), fg=const.COLOURS[around])
                 self.dispField[y][x].grid(row=y, column=x)
 
 game = Game()
