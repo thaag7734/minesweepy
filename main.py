@@ -217,7 +217,7 @@ class Game:
         self.elapsedTime += self.timerEnd - self.timerStart
         self.victoryWindow = Toplevel()
         self.victoryWindow.iconbitmap(resource_path('res/icon.ico'))
-        self.victoryWindow.scoreLabel = Label(self.victoryWindow, text=self.language["savescore"]',
+        self.victoryWindow.scoreLabel = Label(self.victoryWindow, text=self.language["savescore"],
                                               font=('Helvetica', 18), wraplength=300)
         self.validateCmd = (self.victoryWindow.register(self.validateName), '%P', '%d', '%S')
         self.victoryWindow.nameEntry = Entry(self.victoryWindow, validate='key', vcmd=self.validateCmd)
