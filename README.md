@@ -10,4 +10,4 @@ This was a project that I created for my programming class during my sophomore y
 Of course! You're welcome to use my code, as long as you give credit.
 
 ### Is this compatible with Python <3.7?
-MinesweePy is not compatible with any Python version below 3.6 at the moment. It has not been tested with any other Python versions yet, but a port to some earlier versions is planned.
+Yes! MinesweePy is confirmed to work with Python >= 2.7.16 as of March 14th, 2019.
