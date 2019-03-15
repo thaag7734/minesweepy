@@ -74,8 +74,8 @@ class Game:
         except pymysql.err.OperationalError:
             self.outdatedWindow = Toplevel()
             self.outdatedWindow.iconbitmap(resource_path('res/error.ico'))
-            self.outdatedWindow.noConnHead = Label(self.outdatedWindow, text=const.NO_CONN['head'], fg='red')
-            self.outdatedWindow.noConnBody = Label(self.outdatedWindow, text=const.NO_CONN['body'], wraplength=200)
+            self.outdatedWindow.noConnHead = Label(self.outdatedWindow, text=lang.languages[self.language]['NO_CONN']['head'], fg='red')
+            self.outdatedWindow.noConnBody = Label(self.outdatedWindow, text=lang.languages[self.language]['NO_CONN']['body'], wraplength=200)
             self.outdatedWindow.noConnHead.pack()
             self.outdatedWindow.noConnBody.pack()
             return 'nc'
@@ -228,7 +228,7 @@ class Game:
                                                  command=lambda : self.submitScore(self.victoryWindow.nameEntry.get(), self.elapsedTime))
         self.victoryWindow.invalidInputLabel = Label(self.victoryWindow, wraplength=300, fg='red', text=self.language["validation"])
         if self.outdated == 'nc':
-            self.victoryWindow.scoreLabel.config(text=const.NO_CONN['body'], wraplength=500)
+            self.victoryWindow.scoreLabel.config(text=lang.languages[self.language]['NO_CONN']['body'], wraplength=500)
             self.victoryWindow.nameEntry.config(state=DISABLED)
             self.victoryWindow.submitButton.config(text=self.language["continuebutton"])
         elif self.outdated:
@@ -267,8 +267,8 @@ class Game:
         except pymysql.err.OperationalError:
             errWindow = Toplevel()
             errWindow.iconbitmap(resource_path('res/error.ico'))
-            errWindow.errHead = Label(errWindow, text=const.NO_CONN['head'], fg='red')
-            errWindow.errBody = Label(errWindow, text=const.NO_CONN['body'], wraplength=200)
+            errWindow.errHead = Label(errWindow, text=lang.languages[self.language]['NO_CONN']['head'], fg='red')
+            errWindow.errBody = Label(errWindow, text=lang.languages[self.language]['NO_CONN']['body'], wraplength=200)
             errWindow.errHead.pack()
             errWindow.errBody.pack()
 
