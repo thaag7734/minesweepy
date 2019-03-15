@@ -14,6 +14,8 @@ import const
 import dblogin
 from lang import locales
 import locale
+import requests
+import re
 
 def resource_path(relative_path):
     #Get absolute path to resource, works for dev and for PyInstaller
@@ -51,27 +53,24 @@ class Game:
 
     def checkVersion(self):
         try:
-            conn = pymysql.connect(host=dblogin.DB_LOGIN['host'], user=dblogin.DB_LOGIN['user'], passwd=dblogin.DB_LOGIN['passwd'],
-                                   database=dblogin.DB_LOGIN['msgdatabase'], port=dblogin.DB_LOGIN['port'])
-            cursor = conn.cursor()
-            cursor.execute('SELECT * FROM `version_info` WHERE `version` > %s ORDER BY `version` DESC LIMIT 1' % const.VERSION)
-            message = cursor.fetchone()
-            cursor.close()
-            conn.close()
-            if message:
+            url = 'https://raw.githubusercontent.com/thaag7734/minesweepy/master/VERSION'
+            r = requests.get(url)
+            version = float(r.text)
+            if const.VERSION == version:
+                return False
+            else:
                 self.outdatedWindow = Toplevel()
                 self.outdatedWindow.iconbitmap(resource_path('res/error.ico'))
-                header = message[1]
-                body = message[2]
-                self.outdatedWindow.versionWarningHead = Label(self.outdatedWindow, text=header, fg='red')
+                head = self.locale['OUTDATED']['head']
+                body = self.locale['OUTDATED']['body']
+                self.outdatedWindow.versionWarningHead = Label(self.outdatedWindow, text=head, fg='red')
                 self.outdatedWindow.versionWarningBody = Label(self.outdatedWindow, text=body, wraplength=200)
                 self.outdatedWindow.updateButton = Button(self.outdatedWindow, text=self.locale["updatebutton"], command=self.openUpdate)
                 self.outdatedWindow.versionWarningHead.pack()
                 self.outdatedWindow.versionWarningBody.pack()
                 self.outdatedWindow.updateButton.pack()
                 return True
-            return False
-        except pymysql.err.OperationalError:
+        except requests.RequestException:
             self.outdatedWindow = Toplevel()
             self.outdatedWindow.iconbitmap(resource_path('res/error.ico'))
             self.outdatedWindow.noConnHead = Label(self.outdatedWindow, text=self.locale['NO_CONN']['head'], fg='red')

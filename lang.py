@@ -5,6 +5,10 @@ locales = {
             'body': 'Could not connect to the database. Please check your internet connection and restart the program. ' +
             'You will be unable to save your scores until a connection is established.'
             },
+        'OUTDATED': {
+            'head': 'Program Outdated',
+            'body': 'Your program is outdated! Please click the button below to download the latest version. You will be unable to save your scores until you update.'
+        },
         'newgame': 'New Game',
         'leaderboard': 'Show Leaderboard',
         'pause': 'Pause Game',
