@@ -1,3 +1,4 @@
 dblogin.py
 minesweepy.spec
 build/
+*.pyc
