@@ -36,9 +36,3 @@ COLOURS = [
     ]
 
 VERSION = 2.1010
-
-NO_CONN = {
-    'head': 'No Connection',
-    'body': 'Could not connect to the database. Please check your internet connection and restart the program. ' +
-    'You will be unable to save your scores until a connection is established.'
-    }
