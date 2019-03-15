@@ -27,7 +27,7 @@ def resource_path(relative_path):
 
 class Game:
     def __init__(self):
-        self.locale = locales[locale.getdefaultlocale()[0]] if locale.getdefaultlocale()[0] in languages else 'en_US'
+        self.locale = locales[locale.getdefaultlocale()[0]] if locale.getdefaultlocale()[0] in locales else 'en_US'
         originalFlagImage = Image.open(resource_path('res/flag.png'))
         resizedFlagImage = originalFlagImage.resize((const.BLOCK_SIZE, const.BLOCK_SIZE), Image.ANTIALIAS)
         self.OPWIN = Tk()
