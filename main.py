@@ -256,7 +256,7 @@ class Game:
                 if numRows >= 10:
                     limit = numRows - 9
                     cursor.execute('DELETE FROM `%s` WHERE `name` = "%s" ORDER BY `time` DESC LIMIT %d' % (self.difficulty, name, limit))
-                cursor.execute('INSERT INTO `%s` (`name`,`time`) VALUES ("%s", %d)', (self.difficulty, name, time)
+                cursor.execute('INSERT INTO `%s` (`name`,`time`) VALUES ("%s", %d)' % (self.difficulty, name, time))
                 cursor.close()
                 conn.close()
             self.victoryWindow.destroy()
