@@ -35,7 +35,7 @@ COLOURS = [
     '#c00'
     ]
 
-VERSION = 2
+VERSION = 2.1010
 
 NO_CONN = {
     'head': 'No Connection',
