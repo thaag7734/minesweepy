@@ -106,7 +106,7 @@ class Game:
         self.WINDOW.iconbitmap(resource_path('res/icon.ico'))
         self.WINDOW.title('MinesweePy')
         self.WINDOW.resizable(0,0)
-        self.WINDOW.pauseText = Label(self.WINDOW, text=self.language["paused"]}, font=('Helvetica', 32), anchor=CENTER)
+        self.WINDOW.pauseText = Label(self.WINDOW, text=self.language["paused"], font=('Helvetica', 32), anchor=CENTER)
         self.winx = self.OPWIN.winfo_x() + self.OPWIN.winfo_width() + 50
         self.winy = self.OPWIN.winfo_y()
         self.WINDOW.geometry('+%d+%d' % (self.winx, self.winy))
@@ -297,7 +297,7 @@ class Game:
                 self.leaderboardWindow.topFive[scoreNum].pack()
         except pymysql.err.OperationalError:
             self.leaderboardWindow.titleText.pack()
-            self.leaderboardWindow.connectionErrorText = Label(self.leaderboardWindow, text={self.language["noconn"]}, fg='red')
+            self.leaderboardWindow.connectionErrorText = Label(self.leaderboardWindow, text=self.language["noconn"], fg='red')
             self.leaderboardWindow.connectionErrorText.pack()
 
 class Field:
