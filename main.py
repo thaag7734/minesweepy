@@ -12,7 +12,7 @@ import sys
 import platform
 import const
 import dblogin
-from lang import languages
+from lang import locales
 import locale
 
 def resource_path(relative_path):
@@ -27,7 +27,7 @@ def resource_path(relative_path):
 
 class Game:
     def __init__(self):
-        self.language = languages[locale.getdefaultlocale()[0]] if locale.getdefaultlocale()[0] in languages else 'en_US'
+        self.locale = locales[locale.getdefaultlocale()[0]] if locale.getdefaultlocale()[0] in languages else 'en_US'
         originalFlagImage = Image.open(resource_path('res/flag.png'))
         resizedFlagImage = originalFlagImage.resize((const.BLOCK_SIZE, const.BLOCK_SIZE), Image.ANTIALIAS)
         self.OPWIN = Tk()
@@ -36,14 +36,14 @@ class Game:
         self.OPWIN.title('MinesweePy')
         self.OPWIN.geometry('250x150')
         self.OPWIN.resizable(0, 0)
-        self.OPWIN.restartButton = Button(self.OPWIN, text=self.language["newgame"] , command=lambda : self.startNewGame())
-        self.OPWIN.flagLabel = Label(self.OPWIN, text=self.language["flagsleft"], font=('Helvetica', 20))
+        self.OPWIN.restartButton = Button(self.OPWIN, text=self.locale["newgame"] , command=lambda : self.startNewGame())
+        self.OPWIN.flagLabel = Label(self.OPWIN, text=self.locale["flagsleft"], font=('Helvetica', 20))
         self.OPWIN.difficulty = StringVar()
         self.OPWIN.difficulty.trace('w', lambda *_: self.setDifficulty(self.OPWIN.difficulty.get()))
         self.OPWIN.difficulty.set('Easy')
         self.OPWIN.difficultyMenu = OptionMenu(self.OPWIN, self.OPWIN.difficulty, *const.GRIDS)
-        self.OPWIN.leaderboardButton = Button(self.OPWIN, text=self.language["leaderboard"], command=self.displayLeaderboard)
-        self.OPWIN.pauseButton = Button(self.OPWIN, text=self.language["pause"], command=lambda : self.pauseGame())
+        self.OPWIN.leaderboardButton = Button(self.OPWIN, text=self.locale["leaderboard"], command=self.displayLeaderboard)
+        self.OPWIN.pauseButton = Button(self.OPWIN, text=self.locale["pause"], command=lambda : self.pauseGame())
         self.OPWIN.difficultyMenu.pack()
         self.OPWIN.restartButton.pack()
         self.OPWIN.leaderboardButton.pack()
@@ -65,7 +65,7 @@ class Game:
                 body = message[2]
                 self.outdatedWindow.versionWarningHead = Label(self.outdatedWindow, text=header, fg='red')
                 self.outdatedWindow.versionWarningBody = Label(self.outdatedWindow, text=body, wraplength=200)
-                self.outdatedWindow.updateButton = Button(self.outdatedWindow, text=self.language["updatebutton"], command=self.openUpdate)
+                self.outdatedWindow.updateButton = Button(self.outdatedWindow, text=self.locale["updatebutton"], command=self.openUpdate)
                 self.outdatedWindow.versionWarningHead.pack()
                 self.outdatedWindow.versionWarningBody.pack()
                 self.outdatedWindow.updateButton.pack()
@@ -74,8 +74,8 @@ class Game:
         except pymysql.err.OperationalError:
             self.outdatedWindow = Toplevel()
             self.outdatedWindow.iconbitmap(resource_path('res/error.ico'))
-            self.outdatedWindow.noConnHead = Label(self.outdatedWindow, text=lang.languages[self.language]['NO_CONN']['head'], fg='red')
-            self.outdatedWindow.noConnBody = Label(self.outdatedWindow, text=lang.languages[self.language]['NO_CONN']['body'], wraplength=200)
+            self.outdatedWindow.noConnHead = Label(self.outdatedWindow, text=self.locale['NO_CONN']['head'], fg='red')
+            self.outdatedWindow.noConnBody = Label(self.outdatedWindow, text=self.locale['NO_CONN']['body'], wraplength=200)
             self.outdatedWindow.noConnHead.pack()
             self.outdatedWindow.noConnBody.pack()
             return 'nc'
@@ -109,13 +109,13 @@ class Game:
         self.WINDOW.iconbitmap(resource_path('res/icon.ico'))
         self.WINDOW.title('MinesweePy')
         self.WINDOW.resizable(0,0)
-        self.WINDOW.pauseText = Label(self.WINDOW, text=self.language["paused"], font=('Helvetica', 32), anchor=CENTER)
+        self.WINDOW.pauseText = Label(self.WINDOW, text=self.locale["paused"], font=('Helvetica', 32), anchor=CENTER)
         self.winx = self.OPWIN.winfo_x() + self.OPWIN.winfo_width() + 50
         self.winy = self.OPWIN.winfo_y()
         self.WINDOW.geometry('+%d+%d' % (self.winx, self.winy))
         self.field = Field(self.difficulty, self.WINDOW)
         self.flagsLeft = IntVar()
-        self.flagsLeft.trace('w', lambda *_: self.OPWIN.flagLabel.config(text=self.language["flagsleft"] + str(self.flagsLeft.get())))
+        self.flagsLeft.trace('w', lambda *_: self.OPWIN.flagLabel.config(text=self.locale["flagsleft"] + str(self.flagsLeft.get())))
         self.flagsLeft.set(self.field.MINE_COUNT)
         self.WINDOW.bind('<ButtonRelease-1>', lambda _: self.frameClicked())
         self.WINDOW.bind('<ButtonRelease-3>', lambda _: self.flag())
@@ -220,21 +220,21 @@ class Game:
         self.elapsedTime += self.timerEnd - self.timerStart
         self.victoryWindow = Toplevel()
         self.victoryWindow.iconbitmap(resource_path('res/icon.ico'))
-        self.victoryWindow.scoreLabel = Label(self.victoryWindow, text=self.language["savescore"],
+        self.victoryWindow.scoreLabel = Label(self.victoryWindow, text=self.locale["savescore"],
                                               font=('Helvetica', 18), wraplength=300)
         self.validateCmd = (self.victoryWindow.register(self.validateName), '%P', '%d', '%S')
         self.victoryWindow.nameEntry = Entry(self.victoryWindow, validate='key', vcmd=self.validateCmd)
-        self.victoryWindow.submitButton = Button(self.victoryWindow, text=self.language["submitbutton"],
+        self.victoryWindow.submitButton = Button(self.victoryWindow, text=self.locale["submitbutton"],
                                                  command=lambda : self.submitScore(self.victoryWindow.nameEntry.get(), self.elapsedTime))
-        self.victoryWindow.invalidInputLabel = Label(self.victoryWindow, wraplength=300, fg='red', text=self.language["validation"])
+        self.victoryWindow.invalidInputLabel = Label(self.victoryWindow, wraplength=300, fg='red', text=self.locale["validation"])
         if self.outdated == 'nc':
-            self.victoryWindow.scoreLabel.config(text=lang.languages[self.language]['NO_CONN']['body'], wraplength=500)
+            self.victoryWindow.scoreLabel.config(text=self.locale['NO_CONN']['body'], wraplength=500)
             self.victoryWindow.nameEntry.config(state=DISABLED)
-            self.victoryWindow.submitButton.config(text=self.language["continuebutton"])
+            self.victoryWindow.submitButton.config(text=self.locale["continuebutton"])
         elif self.outdated:
-            self.victoryWindow.scoreLabel.config(wraplength=500, text=self.language["outdatedsave"])
+            self.victoryWindow.scoreLabel.config(wraplength=500, text=self.locale["outdatedsave"])
             self.victoryWindow.nameEntry.config(state=DISABLED)
-            self.victoryWindow.submitButton.config(text=self.language["continuebutton"])
+            self.victoryWindow.submitButton.config(text=self.locale["continuebutton"])
         self.victoryWindow.scoreLabel.pack()
         self.victoryWindow.nameEntry.pack()
         self.victoryWindow.submitButton.pack()
@@ -267,8 +267,8 @@ class Game:
         except pymysql.err.OperationalError:
             errWindow = Toplevel()
             errWindow.iconbitmap(resource_path('res/error.ico'))
-            errWindow.errHead = Label(errWindow, text=lang.languages[self.language]['NO_CONN']['head'], fg='red')
-            errWindow.errBody = Label(errWindow, text=lang.languages[self.language]['NO_CONN']['body'], wraplength=200)
+            errWindow.errHead = Label(errWindow, text=self.locale['NO_CONN']['head'], fg='red')
+            errWindow.errBody = Label(errWindow, text=self.locale['NO_CONN']['body'], wraplength=200)
             errWindow.errHead.pack()
             errWindow.errBody.pack()
 
@@ -276,7 +276,7 @@ class Game:
         self.leaderboardWindow = Toplevel()
         self.leaderboardWindow.iconbitmap(resource_path('res/icon.ico'))
         self.leaderboardWindow.title('MinesweePy')
-        self.leaderboardWindow.titleText = Label(self.leaderboardWindow, text=self.language["toptimes"] % self.difficulty, font=('Helvetica', 20))
+        self.leaderboardWindow.titleText = Label(self.leaderboardWindow, text=self.locale["toptimes"] % self.difficulty, font=('Helvetica', 20))
         self.leaderboardWindow.lbFrame = Frame(self.leaderboardWindow, relief=RAISED, bd=1, highlightthickness=0, bg='#0d0d0d')
         self.leaderboardWindow.topFive = [
             Label(self.leaderboardWindow.lbFrame, fg='#ffd700', bg=self.leaderboardWindow.lbFrame.cget('bg'), font=('Helvetica', 20)),
@@ -300,7 +300,7 @@ class Game:
                 self.leaderboardWindow.topFive[scoreNum].pack()
         except pymysql.err.OperationalError:
             self.leaderboardWindow.titleText.pack()
-            self.leaderboardWindow.connectionErrorText = Label(self.leaderboardWindow, text=self.language["noconn"], fg='red')
+            self.leaderboardWindow.connectionErrorText = Label(self.leaderboardWindow, text=self.locale["noconn"], fg='red')
             self.leaderboardWindow.connectionErrorText.pack()
 
 class Field:
