@@ -1,4 +1,4 @@
-languages = {
+locales = {
     'en_US': {
         'NO_CONN': {
             'head': 'No Connection',
