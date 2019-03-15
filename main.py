@@ -55,7 +55,7 @@ class Game:
         try:
             url = 'https://raw.githubusercontent.com/thaag7734/minesweepy/master/VERSION'
             r = requests.get(url)
-            version = float(r.text)
+            version = r.text
             if const.VERSION == version:
                 return False
             else:

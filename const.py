@@ -35,4 +35,4 @@ COLOURS = [
     '#c00'
     ]
 
-VERSION = 2.1111
+VERSION = '2.11r'
