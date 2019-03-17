@@ -219,22 +219,22 @@ class Game:
         self.elapsedTime += self.timerEnd - self.timerStart
         self.victoryWindow = Toplevel()
         self.victoryWindow.iconbitmap(resource_path('res/icon.ico'))
-        self.victoryWindow.scoreLabel = Label(self.victoryWindow, text=self.locale['savescore'],
+        self.victoryWindow.timeLabel = Label(self.victoryWindow, text=self.locale['savetime'],
                                               font=('Helvetica', 18), wraplength=300)
         self.validateCmd = (self.victoryWindow.register(self.validateName), '%P', '%d', '%S')
         self.victoryWindow.nameEntry = Entry(self.victoryWindow, validate='key', vcmd=self.validateCmd)
         self.victoryWindow.submitButton = Button(self.victoryWindow, text=self.locale['submitbutton'],
-                                                 command=lambda : self.submitScore(self.victoryWindow.nameEntry.get(), self.elapsedTime))
+                                                 command=lambda : self.submitTime(self.victoryWindow.nameEntry.get(), self.elapsedTime))
         self.victoryWindow.invalidInputLabel = Label(self.victoryWindow, wraplength=300, fg='red', text=self.locale['validation'])
         if self.outdated == 'nc':
-            self.victoryWindow.scoreLabel.config(text=self.locale['NO_CONN']['body'], wraplength=500)
+            self.victoryWindow.timeLabel.config(text=self.locale['NO_CONN']['body'], wraplength=500)
             self.victoryWindow.nameEntry.config(state=DISABLED)
             self.victoryWindow.submitButton.config(text=self.locale['continuebutton'])
         elif self.outdated:
-            self.victoryWindow.scoreLabel.config(wraplength=500, text=self.locale['outdatedsave'])
+            self.victoryWindow.timeLabel.config(wraplength=500, text=self.locale['outdatedsave'])
             self.victoryWindow.nameEntry.config(state=DISABLED)
             self.victoryWindow.submitButton.config(text=self.locale['continuebutton'])
-        self.victoryWindow.scoreLabel.pack()
+        self.victoryWindow.timeLabel.pack()
         self.victoryWindow.nameEntry.pack()
         self.victoryWindow.submitButton.pack()
 
@@ -248,7 +248,7 @@ class Game:
             self.victoryWindow.submitButton.config(state=NORMAL)
         return True
 
-    def submitScore(self, name, time):
+    def submitTime(self, name, time):
         try:
             if not self.outdated:
                 conn = pymysql.connect(host=dblogin.DB_LOGIN['host'], user=dblogin.DB_LOGIN['user'], passwd=dblogin.DB_LOGIN['passwd'],
@@ -294,9 +294,9 @@ class Game:
             conn.close()
             self.leaderboardWindow.titleText.pack()
             self.leaderboardWindow.lbFrame.pack(pady=(0, 10))
-            for scoreNum in range(0, len(results)):
-                self.leaderboardWindow.topFive[scoreNum].config(text='%s: %d' % (results[scoreNum][0], results[scoreNum][1]))
-                self.leaderboardWindow.topFive[scoreNum].pack()
+            for timeNum in range(0, len(results)):
+                self.leaderboardWindow.topFive[timeNum].config(text='%s: %d' % (results[timeNum][0], results[timeNum][1]))
+                self.leaderboardWindow.topFive[timeNum].pack()
         except pymysql.err.OperationalError:
             self.leaderboardWindow.titleText.pack()
             self.leaderboardWindow.connectionErrorText = Label(self.leaderboardWindow, text=self.locale['noconn'], fg='red')
