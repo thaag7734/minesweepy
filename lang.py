@@ -14,7 +14,7 @@ locales = {
         'pause': 'Pause Game',
         'paused': 'PAUSED',
         'updatebutton': 'Click to Update',
-        'savetime': 'Enter your name to save your time!',
+        'savetime': 'You cleared the %s board with a time of %f seconds. Enter your name to save your time!',
         'submitbutton': 'Submit',
         'validation': 'The only allowed characters are alphanumerics, ".", " ", and "_", and the length must be within 1-255.',
         'continuebutton': 'Continue',
