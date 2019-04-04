@@ -2,6 +2,10 @@ try:
     from tkinter import *
 except ImportError:
     from Tkinter import *
+try:
+    import pyttsx3
+except ImportError:
+    import pyttsx as pyttsx3
 from random import randint
 import time
 import pymysql
@@ -16,7 +20,6 @@ from lang import locales
 import locale
 import requests
 import re
-import pyttsx3
 import threading
 
 
