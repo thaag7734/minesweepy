@@ -1,5 +1,5 @@
 locales = {
-    'en_US': {
+    'en_us': {
         'NO_CONN': {
             'head': 'No Connection',
             'body': 'Could not connect to the database. Please check your internet connection and restart the program. ' +
@@ -21,6 +21,8 @@ locales = {
         'outdatedsave': 'Your program is outdated! You cannot save your times until you update.',
         'toptimes': 'Top times for %s board',
         'noconn': 'No connection',
-        'flagsleft': 'Flags Left: '
+        'flagsleft': 'Flags Left: ',
+        'explodespeech': 'Kaboom!',
+        'winspeech': 'Congratulations! You win!'
         }
     }

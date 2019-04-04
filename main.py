@@ -16,6 +16,9 @@ from lang import locales
 import locale
 import requests
 import re
+import pyttsx3
+import threading
+
 
 def resource_path(relative_path):
     #Get absolute path to resource, works for dev and for PyInstaller
@@ -29,7 +32,8 @@ def resource_path(relative_path):
 
 class Game:
     def __init__(self):
-        self.locale = locales[locale.getdefaultlocale()[0]] if locale.getdefaultlocale()[0] in locales else 'en_US'
+        self.speechEngine = pyttsx3.init()
+        self.locale = locales[locale.getdefaultlocale()[0].lower()] if locale.getdefaultlocale()[0].lower() in locales else 'en_us'
         originalFlagImage = Image.open(resource_path('res/flag.png'))
         resizedFlagImage = originalFlagImage.resize((const.BLOCK_SIZE, const.BLOCK_SIZE), Image.ANTIALIAS)
         self.OPWIN = Tk()
@@ -207,10 +211,16 @@ class Game:
                     self.field.dispField[y][x].flagLabel.pack_forget()
                     self.field.dispField[y][x].exposeLabel.pack()
         self.gameOver = True
+        self.speechEngine.say(self.locale['explodespeech'])
+        self.speechThread = threading.Thread(target=self.speechEngine.runAndWait)
+        self.speechThread.start()
 
     def win(self):
         self.gameOver = True
         self.timerEnd = time.time()
+        self.speechEngine.say(self.locale['winspeech'])
+        self.speechThread = threading.Thread(target=self.speechEngine.runAndWait)
+        self.speechThread.start()
         self.elapsedTime = 0
         timeSum = 0
         for currTime in self.pausedTimes:
