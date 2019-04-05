@@ -88,10 +88,10 @@ class Game:
 
     def openUpdate(self):
         system = platform.system()
-        if system == 'Windows': os.system('start "" http://degenerat.es/minesweepy')
-        elif system == 'Darwin': os.system('open "" http://degenerat.es/minesweepy')
-        elif system == 'Linux': os.system('xdg-open "" http://degenerat.es/minesweepy')
-        else: webbrowser.open('http://degenerat.es/minesweepy')
+        if system == 'Windows': os.system('start "" https://github.com/thaag7734/minesweepy/raw/master/dist/MinesweePy.exe')
+        elif system == 'Darwin': os.system('open "" https://github.com/thaag7734/minesweepy/raw/master/dist/MinesweePy.exe')
+        elif system == 'Linux': os.system('xdg-open "" https://github.com/thaag7734/minesweepy/raw/master/dist/MinesweePy.exe')
+        else: webbrowser.open('https://github.com/thaag7734/minesweepy/raw/master/dist/MinesweePy.exe')
 
     def setDifficulty(self, difficulty):
         self.difficulty = difficulty
