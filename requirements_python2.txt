@@ -1,0 +1,3 @@
+pyttsx
+pymysql
+pillow
