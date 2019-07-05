@@ -21,6 +21,7 @@ import locale
 import requests
 import re
 import threading
+from decimal import Decimal
 
 
 def resource_path(relative_path):
@@ -308,7 +309,7 @@ class Game:
             self.leaderboardWindow.titleText.pack()
             self.leaderboardWindow.lbFrame.pack(pady=(0, 10))
             for timeNum in range(0, len(results)):
-                self.leaderboardWindow.topFive[timeNum].config(text='%s: %d' % (results[timeNum][0], results[timeNum][1]))
+                self.leaderboardWindow.topFive[timeNum].config(text='%s: %s' % (results[timeNum][0], str(Decimal(results[timeNum][1]))))
                 self.leaderboardWindow.topFive[timeNum].pack()
         except pymysql.err.OperationalError:
             self.leaderboardWindow.titleText.pack()
