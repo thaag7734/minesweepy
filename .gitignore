@@ -2,3 +2,5 @@ dblogin.py
 minesweepy.spec
 build/
 *.pyc
+/.vs
+/env
