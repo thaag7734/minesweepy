@@ -1,3 +1,4 @@
 pyttsx
 pymysql
 pillow
+requests
