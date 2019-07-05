@@ -21,7 +21,6 @@ import locale
 import requests
 import re
 import threading
-from decimal import Decimal
 
 
 def resource_path(relative_path):
@@ -233,7 +232,7 @@ class Game:
         self.elapsedTime += self.timerEnd - self.timerStart
         self.victoryWindow = Toplevel()
         self.victoryWindow.iconbitmap(resource_path('res/icon.ico'))
-        self.victoryWindow.timeLabel = Label(self.victoryWindow, text=self.locale['savetime'] % (self.difficulty, self.elapsedTime),
+        self.victoryWindow.timeLabel = Label(self.victoryWindow, text=self.locale['savetime'] % (self.difficulty, str(round(self.elapsedTime, 4))),
                                               font=('Helvetica', 18), wraplength=300)
         self.validateCmd = (self.victoryWindow.register(self.validateName), '%P', '%d', '%S')
         self.victoryWindow.nameEntry = Entry(self.victoryWindow, validate='key', vcmd=self.validateCmd)
@@ -254,7 +253,7 @@ class Game:
 
     def validateName(self, name, act, char):
         if len(name) > 255: return False
-        if not (re.match('^[a-zA-Z0-9_ .]+$', name) or name == ''):
+        if not (re.match('^[a-zA-Z0-9_ .]+$', name) or len(name) == 0):
             self.victoryWindow.invalidInputLabel.pack()
             self.victoryWindow.submitButton.config(state=DISABLED)
         else:
@@ -309,7 +308,7 @@ class Game:
             self.leaderboardWindow.titleText.pack()
             self.leaderboardWindow.lbFrame.pack(pady=(0, 10))
             for timeNum in range(0, len(results)):
-                self.leaderboardWindow.topFive[timeNum].config(text='%s: %s' % (results[timeNum][0], str(Decimal(results[timeNum][1]))))
+                self.leaderboardWindow.topFive[timeNum].config(text='%s: %s' % (results[timeNum][0], str(round(results[timeNum][1], 4))))
                 self.leaderboardWindow.topFive[timeNum].pack()
         except pymysql.err.OperationalError:
             self.leaderboardWindow.titleText.pack()
