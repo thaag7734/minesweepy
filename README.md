@@ -6,8 +6,5 @@ MinesweePy is an open-source implementation of the popular Windows game **Minesw
 ### Why was MinesweePy created?
 This was a project that I created for my programming class during my sophomore year in high school (2018-19).
 
-### Can I use some of your code in my own project(s)?
-Of course! You're welcome to use my code, as long as you give credit.
-
 ### Is this compatible with Python <3.7?
 Yes! MinesweePy is confirmed to work with Python >= 2.7.16 as of March 14th, 2019.
