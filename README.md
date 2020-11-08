@@ -8,3 +8,6 @@ This was a project that I created for my programming class during my sophomore y
 
 ### Is this compatible with Python <3.7?
 Yes! MinesweePy is confirmed to work with Python >= 2.7.16 as of March 14th, 2019.
+
+### I just want to play it. How do I go about installing MinesweePy?
+Just download the standalone MinesweePy.exe file in the /dist folder and run it, no installation needed.
